@@ -30,6 +30,22 @@ function selectGalleryEl(evt) {
     }
 
     const instance = basicLightbox.create(
-        `<img src="${evt.target.dataset.source}" width="900" height="700">`
-    )
+        `<img src="${evt.target.dataset.source}" width="900" height="700">`,
+        {
+            onShow: () => {
+                window.addEventListener('keydown', onKeydownEsc);
+            },
+            onClose: () => {
+                window.removeEventListener('keydown', onKeydownEsc)
+            },
+        },
+    );
+
+    const onKeydownEsc = evt => {
+        console.log(evt.code);
+        if (evt.code === 'Escape') {
+            instance.close();
+        }
+    };
+    instance.show();
 }
